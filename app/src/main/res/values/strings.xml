@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">RTBitcoinWidget</string>
+    <string name="app_desc">Real-Time Bitcoin Value</string>
+    <string name="action_settings">Settings</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="Frequency">Frequency</string>
+    <string name="Currency">Currency</string>
+
+    <string-array name="currency_list_title">
+        <item>CAN</item>
+        <item>USD</item>
+        <item>EUR</item>
+    </string-array>
+
+    <string-array name="frequency_interval_value">
+        <item>15</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+    </string-array>
+</resources>
