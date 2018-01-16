@@ -116,10 +116,14 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
                     PendingIntent.FLAG_UPDATE_CURRENT
             );
 
+            //removed this method as it is only to be done during configuration
+
+            /*
             remoteViews.setOnClickPendingIntent(
                     R.id.actionButton,
                     pendingIntent
             );
+            */
 
             /*
                 AppWidgetManager

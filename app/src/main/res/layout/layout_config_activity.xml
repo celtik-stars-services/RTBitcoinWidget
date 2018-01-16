@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignEnd="@+id/textView3"
@@ -13,7 +14,7 @@
         android:backgroundTint="@android:color/darker_gray"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
-        android:text="Configure your widget"
+        android:text="@string/configureWidget"
         android:textStyle="bold"
         tools:textSize="30sp" />
 
@@ -22,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
-        android:text="Select the currency"
+        android:text="@string/selectCurrency"
         android:textSize="28sp" />
 
     <LinearLayout
@@ -80,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
-        android:text="Select the update frequency"
+        android:text="@string/selectFrequency"
         android:textSize="28sp" />
 
     <LinearLayout

@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import java.util.Arrays;
+
 /**
  * Created by tech on 17-12-14.
  */
@@ -32,6 +34,7 @@ public class ConfigurationActivity extends Activity {
 
         // Set the result to CANCELED. This will cause the widget host to cancel
         // out of the widget placement if the user presses the back button.
+
         setResult(RESULT_CANCELED);
 
         initListViews();
@@ -40,6 +43,7 @@ public class ConfigurationActivity extends Activity {
     public void initListViews() {
 
         Button okButton = (Button) findViewById(R.id.okButton);
+
         okButton.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -52,6 +56,7 @@ public class ConfigurationActivity extends Activity {
     }
 
     private void handleOkButton() {
+
         showAppWidget();
 
     }
@@ -65,7 +70,9 @@ public class ConfigurationActivity extends Activity {
         mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
         // Find the widget id from the intent.
+
         Intent intent = getIntent();
+
         Bundle extras = intent.getExtras();
 
         if (extras != null) {
@@ -77,7 +84,6 @@ public class ConfigurationActivity extends Activity {
                     getBaseContext()).getAppWidgetInfo(mAppWidgetId);
 
             String appWidgetLabel = providerInfo.label;
-
 
             //Intent startService = new Intent(ConfigurationActivity.this,
                     //UpdateWidgetService.class);
@@ -99,6 +105,7 @@ public class ConfigurationActivity extends Activity {
 
         // If this activity was started with an intent without an app widget ID,
         // finish with an error.
+
         if (mAppWidgetId == INVALID_APPWIDGET_ID) {
             Log.i("I am invalid", "I am invalid");
             finish();
@@ -122,10 +129,13 @@ public class ConfigurationActivity extends Activity {
 */
     private int getCurrency(int currency) {
 
-        String[] values = getResources().getStringArray(R.array.currency);
+        String[] values = getResources().getStringArray(R.array.currencies);
+
+        //final int a = Arrays.binarySearch(languageAlias, languageData);
 
         for (int i=0; i<values.length; i++) {
-            if (values[i].equals(interval)) return i;
+            if (values[i].equals(R.array.currencies))
+                return i;
         }
 
         return 0;
@@ -134,36 +144,56 @@ public class ConfigurationActivity extends Activity {
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
 
         public void onClick(View v) {
-            final Context context = VocabWidgetConfigureActivity.this;
 
-            // When the button is clicked, store the string locally
-            String[] values = getResources().getStringArray(R.array.refresh_interval_values);
-            String widgetText = values[mRefreshIntervalSpn.getSelectedItemPosition()];
-            saveIntervalPref(context, mAppWidgetId, widgetText);
+        final Context context = ConfigurationActivity.this;
 
-            // Make sure we pass back the original appWidgetId
-            Intent resultValue = new Intent();
-            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-            setResult(RESULT_OK, resultValue);
-            finish();
+        // When the button is clicked, store the string locally
+
+        String[] values = getResources().getStringArray(R.array.frequencies);
+
+        //this is for a spinner: todo : change it to radio group
+
+        //String widgetText = values[mRefreshIntervalSpn.getSelectedItemPosition()];
+        //saveIntervalPref(context, mAppWidgetId, widgetText);
+
+        // Make sure we pass back the original appWidgetId
+
+        Intent resultValue = new Intent();
+
+        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+
+        setResult(RESULT_OK, resultValue);
+
+        finish();
         }
 
     };
 
     // Write the prefix to the SharedPreferences object for this widget
+
     static void saveIntervalPref(Context context, int appWidgetId, String text) {
 
         SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        prefs.putString(SettingsActivity.INTERVAL_PREF, text);
+
+        //todo: find the good name instead of "settingActivity"
+       // prefs.putString(SettingsActivity.INTERVAL_PREF, text);
+
         prefs.commit();
 
     }
 
     // Read the prefix from the SharedPreferences object for this widget.
     // If there is no preference saved, get the default from a resource
+
     static String loadIntervalPref(Context context, int appWidgetId) {
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String interval = prefs.getString(SettingsActivity.INTERVAL_PREF, SettingsActivity.DEFAULT_INTERVAL);
-        return interval;
+
+        //todo: ind the good name instead of "settingActivity"
+        //String interval = prefs.getString(SettingsActivity.INTERVAL_PREF, SettingsActivity.DEFAULT_INTERVAL);
+
+        //return interval;
+
+        return "60";
     }
 }
