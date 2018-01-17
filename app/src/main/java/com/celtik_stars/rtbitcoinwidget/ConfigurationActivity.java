@@ -26,7 +26,7 @@ import java.util.Arrays;
 public class ConfigurationActivity extends Activity {
 
     //todo: make it private with public method
-    public static String PREFERENCE_CURRENCY = "CAN";
+    public static String PREFERENCE_CURRENCY = "CAD";
     public String PREFERENCE_FREQUENCY = "60";
 
     private RadioGroup radioCurrencyGroup;

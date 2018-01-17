@@ -416,15 +416,17 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
             String urlBlockchain = "blockchain.info/";
             String pageBlockchain = "tobtc?";
             String currencyBlockchainTag = "currency=";
-            String currencyBlockchainString = "CAD";
+            String currencyBlockchainString = ConfigurationActivity.PREFERENCE_CURRENCY;
             String valueBitcoinBlockchainTag = "&value=";
             String valueBitcoinBlockchainString = "1";
+
+
 
             urlStringConcatened = protoBlockchain
                     +urlBlockchain
                     +pageBlockchain
                     +currencyBlockchainTag
-                    +ConfigurationActivity.PREFERENCE_CURRENCY
+                    +currencyBlockchainString
                     +valueBitcoinBlockchainTag
                     +valueBitcoinBlockchainString;
 
@@ -450,6 +452,8 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
 
             //Update the view with the string
             remoteViews.setTextViewText(R.id.textView, bitcoinValueString);
+            remoteViews.setTextViewText(R.id.textView5, currencyBlockchainString);
+
             appWidgetManager.updateAppWidget(watchWidget , remoteViews);
 
             // Return the data from specified url to nowhere it seems...
