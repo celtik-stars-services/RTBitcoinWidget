@@ -37,6 +37,8 @@ import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
  */
 public class SimpleWidgetProvider extends AppWidgetProvider {
 
+
+
     // Construct the url to fetch the bitcoin value data from web
 
     //private String mCity = "khulna";
@@ -48,6 +50,12 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
     //private String mURLString = mURLRoot+mCity+","+mCountry+mAppID;
     private String mURLString = mURLRoot;
 
+    /**
+     *
+     * @param context
+     * @param appWidgetManager
+     * @param appWidgetIds
+     */
     @Override
     public void onUpdate(Context context,
                          AppWidgetManager appWidgetManager,
@@ -69,6 +77,7 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
                  file, and this class provides some basic operations for modifying
                  the content of the inflated hierarchy.
             */
+
             // Inflate layout.
             // Construct the RemoteViews object
             RemoteViews remoteViews = new RemoteViews(
@@ -109,6 +118,7 @@ public class SimpleWidgetProvider extends AppWidgetProvider {
                 the returned object can be handed to other
                 applications so that they can perform the action you described on your behalf at a later time.
             */
+
             PendingIntent pendingIntent = PendingIntent.getBroadcast(
                     context,
                     0,
@@ -198,6 +208,12 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
     }
 */
 
+    /**
+     *
+     * @param context
+     * @param action
+     * @return
+     */
     // Catch the click on widget views
     protected PendingIntent getPendingSelfIntent(Context context, String action) {
 
@@ -210,6 +226,12 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
         return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
+    /**
+     *
+     *
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -236,7 +258,7 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
 
             // Update the widget weather data
             // Execute the AsyncTask
-            new ProcessJSONData(appWidgetManager,watchWidget,remoteViews).execute(mURLString);
+            new ProcessJSONData( appWidgetManager, watchWidget, remoteViews).execute(mURLString);
             //remoteViews.setInt(R.id.tv_temperature, "setBackgroundResource", R.drawable.bg_green);
 
             //remoteViews.setTextViewText(R.id.textView, codeGroup);
@@ -269,7 +291,16 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
 
     }
 
+    /**
+     *
+     */
     public static class UpdateWidgetService extends IntentService {
+
+
+
+        /**
+         *
+         */
         public UpdateWidgetService() {
             // only for debug purpose
             super("UpdateWidgetService");
@@ -278,13 +309,18 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
 
         }
 
+        /**
+         *
+         * @param intent
+         */
         @Override
         protected void onHandleIntent(Intent intent) {
 
             AppWidgetManager appWidgetManager = AppWidgetManager
                     .getInstance(UpdateWidgetService.this);
 
-            int incomingAppWidgetId = intent.getIntExtra(EXTRA_APPWIDGET_ID,
+            int incomingAppWidgetId = intent.getIntExtra(
+                    EXTRA_APPWIDGET_ID,
                     INVALID_APPWIDGET_ID);
 
             if (incomingAppWidgetId != INVALID_APPWIDGET_ID) {
@@ -306,8 +342,16 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
 
         }
 
-        public void updateNewsAppWidget(AppWidgetManager appWidgetManager,
-                                        int appWidgetId, Intent intent) {
+        /**
+         *
+         * @param appWidgetManager
+         * @param appWidgetId
+         * @param intent
+         */
+        public void updateNewsAppWidget(
+                AppWidgetManager appWidgetManager,
+                int appWidgetId,
+                Intent intent) {
 
             Log.v("String package name", this.getPackageName());
 
@@ -321,6 +365,9 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
         }
     }
 
+    /**
+     *
+     */
     // AsyncTask to fetch, process and display weather data
     private class ProcessJSONData extends AsyncTask<String, Void, String> {
         private AppWidgetManager appWidgetManager;
@@ -332,45 +379,89 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
             super.onPreExecute();
         }
 
-        public ProcessJSONData(AppWidgetManager appWidgetManager, ComponentName watchWidget, RemoteViews remoteViews){
+        /**
+         *
+         * @param appWidgetManager
+         * @param watchWidget
+         * @param remoteViews
+         */
+        public ProcessJSONData(
+                AppWidgetManager appWidgetManager,
+                ComponentName watchWidget,
+                RemoteViews remoteViews){
+
             // Do something
             this.appWidgetManager = appWidgetManager;
             this.watchWidget = watchWidget;
             this.remoteViews = remoteViews;
         }
 
+        /*
+         *
+         *
+         */
         @Override
         protected String doInBackground(String... strings){
-            String stream;
+            String dataString;
             String urlString = strings[0];
+            String urlStringConcatened;
 
             // Get jason data from web
-            HTTPDataHandler hh = new HTTPDataHandler();
+            HTTPDataHandler dataHandler = new HTTPDataHandler();
 
-            stream = hh.GetHTTPData(urlString);
 
-            System.out.format("ProcessJSONData - doInBackground string: '%s'\n", stream);
+            //Concatenate the urlString with the shared preference
+            //"https://blockchain.info/tobtc?currency=CAD&value=1"
+            String protoBlockchain = "https://";
+            String urlBlockchain = "blockchain.info/";
+            String pageBlockchain = "tobtc?";
+            String currencyBlockchainTag = "currency=";
+            String currencyBlockchainString = "CAD";
+            String valueBitcoinBlockchainTag = "&value=";
+            String valueBitcoinBlockchainString = "1";
 
-            double streamIntVal = Double.valueOf(stream);
+            urlStringConcatened = protoBlockchain
+                    +urlBlockchain
+                    +pageBlockchain
+                    +currencyBlockchainTag
+                    +ConfigurationActivity.PREFERENCE_CURRENCY
+                    +valueBitcoinBlockchainTag
+                    +valueBitcoinBlockchainString;
 
+            System.out.format("ProcessJSONData - doInBackground urlStringConcatened is: '%s'\n", urlStringConcatened);
+
+            //The web site is returning the value of the bitcoin
+            dataString = dataHandler.GetHTTPData(urlStringConcatened);
+
+            System.out.format("ProcessJSONData - doInBackground dataString returned: '%s'\n", dataString);
+
+
+            //convert the bitcoin value of the string into the decimal value
+            double streamIntVal = Double.valueOf(dataString);
+
+            //Convert the bitcoin value into the currency value
             double bitcoinValue = 1/streamIntVal;
 
+            //Convert the decimal value into the nearest upper integer value
             Integer integer = Integer.valueOf( (int) Math.round(bitcoinValue) );
 
+            //Convert back the integer value into a string
             String bitcoinValueString = String.valueOf(integer);
 
-            //int bitcoinValueInt = Double.in bitcoinValue);
-
-            //String bitcoinString = String.valueOf(bitcoinValueInt);
-
+            //Update the view with the string
             remoteViews.setTextViewText(R.id.textView, bitcoinValueString);
-
             appWidgetManager.updateAppWidget(watchWidget , remoteViews);
 
-            // Return the data from specified url
-            return stream;
+            // Return the data from specified url to nowhere it seems...
+            return dataString;
         }
 
+        /**
+         *
+         * @param stream
+         */
+
+        /*
         protected void onPostExecute(String stream){
             super.onPostExecute(stream);
 
@@ -405,7 +496,8 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
 
             }
 
-        /*
+
+
             if(stream !=null){
                 try{
                     // Process JSON data
@@ -441,8 +533,10 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
                     e.printStackTrace();
                 }
             }
-            */
+
         } // onPostExecute() end
+     */
+
     } // ProcessJSON class end
 /*
     // Method to get celsius value from kelvin
@@ -457,10 +551,16 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
         return celsius;
     }
 */
+
+    /**
+     *
+     * @return
+     */
     // Custom method to check internet connection
     public Boolean isInternetConnected(){
         boolean status = false;
         try{
+            //todo: replace with bitcoin web site
             InetAddress address = InetAddress.getByName("google.com");
 
             if(address!=null)
@@ -470,9 +570,11 @@ https://prativas.wordpress.com/category/appwidgets-in-android/part-1-creating-a-
         }catch (Exception e) // Catch the exception
         {
             e.printStackTrace();
+            //todo: site is down, print message in configuration screen
         }
         return status;
     }
+
 /*
     private void updateWeatherData(final String city){
         new Thread(){

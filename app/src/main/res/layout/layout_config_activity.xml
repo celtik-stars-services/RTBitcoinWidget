@@ -58,7 +58,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_weight="1"
-                android:text="CAN" />
+                android:text="CAD"
+                android:checked="true"/>
 
             <RadioButton
                 android:id="@+id/rb_cur_usd"
@@ -133,7 +134,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:layout_weight="1"
-                android:text="60 min" />
+                android:text="60 min"
+                android:checked="true"/>
 
         </RadioGroup>
 
@@ -147,7 +149,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/okButton"
+            android:id="@+id/saveConfigButton"
             android:layout_width="230dp"
             android:layout_height="85dp"
             android:layout_alignEnd="@+id/textView3"

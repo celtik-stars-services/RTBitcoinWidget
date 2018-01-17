@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import java.util.Arrays;
 
@@ -23,6 +25,22 @@ import java.util.Arrays;
 
 public class ConfigurationActivity extends Activity {
 
+    //todo: make it private with public method
+    public static String PREFERENCE_CURRENCY = "CAN";
+    public String PREFERENCE_FREQUENCY = "60";
+
+    private RadioGroup radioCurrencyGroup;
+    private RadioButton radioCurrencyButton;
+
+    private RadioGroup radioFrequencyGroup;
+    private RadioButton radioFrequencyButton;
+
+    private Button btnSaveConfig;
+
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -37,32 +55,59 @@ public class ConfigurationActivity extends Activity {
 
         setResult(RESULT_CANCELED);
 
-        initListViews();
+        addListenerOnButton();
     }
 
-    public void initListViews() {
+    /**
+     *
+     */
+    public void addListenerOnButton() {
 
-        Button okButton = (Button) findViewById(R.id.okButton);
+        btnSaveConfig = (Button) findViewById(R.id.saveConfigButton);
 
-        okButton.setOnClickListener(new OnClickListener() {
+        radioCurrencyGroup = (RadioGroup) findViewById(R.id.rbg_cur);
+        radioFrequencyGroup = (RadioGroup) findViewById(R.id.rbg_fre);
+
+        //btnDisplay = (Button) findViewById(R.id.btnDisplay);
+
+        btnSaveConfig.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                handleOkButton();
+
+                // get Currencies group
+                int selectedCurrencyId = radioCurrencyGroup.getCheckedRadioButtonId();
+
+                // get selected currency
+                radioCurrencyButton = (RadioButton) findViewById(selectedCurrencyId);
+
+                PREFERENCE_CURRENCY = radioCurrencyButton.getText().toString();
+
+                // get Frequencies group
+                int selectedFrequencyId = radioFrequencyGroup.getCheckedRadioButtonId();
+
+                // get selected currency
+                radioFrequencyButton = (RadioButton) findViewById(selectedFrequencyId);
+
+                PREFERENCE_FREQUENCY = radioFrequencyButton.toString();
+/*
+                Toast.makeText(MyAndroidAppActivity.this,
+                        radioSexButton.getText(), Toast.LENGTH_SHORT).show();
+*/
+
+                showAppWidget();
             }
+
         });
 
-    }
-
-    private void handleOkButton() {
-
-        showAppWidget();
 
     }
 
     int mAppWidgetId;
 
+    /**
+     * give hand to main function
+     */
     private void showAppWidget() {
 
         System.out.format("ConfigurationActivity - showAppWidget\n");
@@ -127,6 +172,14 @@ public class ConfigurationActivity extends Activity {
         return 0;
     }
 */
+
+    /**
+     * useless method
+     * todo: remove it
+     * @param currency
+     * @return
+     */
+    /*
     private int getCurrency(int currency) {
 
         String[] values = getResources().getStringArray(R.array.currencies);
@@ -140,7 +193,13 @@ public class ConfigurationActivity extends Activity {
 
         return 0;
     }
+*/
+    /**
+     * Useless method
+     * todo: remove it
+     */
 
+    /*
     View.OnClickListener mOnClickListener = new View.OnClickListener() {
 
         public void onClick(View v) {
@@ -168,32 +227,49 @@ public class ConfigurationActivity extends Activity {
         }
 
     };
+*/
 
     // Write the prefix to the SharedPreferences object for this widget
 
-    static void saveIntervalPref(Context context, int appWidgetId, String text) {
+    /**
+     * useless method
+     * todo: remove it
+     * @param context
+     * @param text
+     */
+    /*
+    void saveCurrency(Context context, String text) {
 
-        SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        SharedPreferences.Editor sharedPrefCurrency = PreferenceManager.getDefaultSharedPreferences(context).edit();
 
         //todo: find the good name instead of "settingActivity"
-       // prefs.putString(SettingsActivity.INTERVAL_PREF, text);
+        sharedPrefCurrency.putString(this.PREFERENCE_CURRENCY, text);
 
-        prefs.commit();
+        sharedPrefCurrency.commit();
 
     }
-
+*/
     // Read the prefix from the SharedPreferences object for this widget.
     // If there is no preference saved, get the default from a resource
 
-    static String loadIntervalPref(Context context, int appWidgetId) {
+    /**
+     * useless method
+     * todo: remove it
+     * @param context
+     * @param appWidgetId
+     * @return
+     */
+    /*
+    static String loadCurrency(Context context, int appWidgetId) {
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences preferedCurrency = PreferenceManager.getDefaultSharedPreferences(context);
 
         //todo: ind the good name instead of "settingActivity"
-        //String interval = prefs.getString(SettingsActivity.INTERVAL_PREF, SettingsActivity.DEFAULT_INTERVAL);
+        String currency = preferedCurrency.getString(SettingsActivity.INTERVAL_PREF, SettingsActivity.DEFAULT_INTERVAL);
 
-        //return interval;
+        return currency;
 
-        return "60";
+
     }
+    */
 }
